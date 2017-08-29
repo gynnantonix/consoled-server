@@ -1,0 +1,7 @@
+/var/log/consoled.log {
+    notifempty
+    missingok
+    weekly
+    rotate 3
+    endscript
+}

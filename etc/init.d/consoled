@@ -1,0 +1,60 @@
+#!/bin/sh
+#
+# consoled: starts, stops, and restarts the consoled debug stream server
+#
+# chkconfig: 35 87 87 
+# description: This runs /usr/sbin/consoled stream server to enable \
+#              multiple and remote access to the debug ports on the hardware \
+#              which this host is responsible for testing. 
+#
+
+# Sanity checks -- make sure we have something to run
+[ -x /usr/sbin/consoled ] || exit 1
+
+progname="Consoled server"
+sysname=`hostname`
+if [ -d /pcfg ]; then
+   PCFGdir="/pcfg"
+else
+   PCFGdir="/path/to/default/pcfg_dir"
+fi
+
+pcfg_file=$PCFGdir/$sysname.pcfg
+
+# Source function library if it is around
+if [ -f /etc/init.d/functions ]
+then
+	. /etc/init.d/functions
+else
+   echo "Can't run init script for consoled -- missing /etc/init.d/functions!"
+   exit 1
+fi
+
+# See how we were called.
+case "$1" in
+   start)
+    daemon --check consoled "nice -n -1 /usr/sbin/consoled --pcfg $pcfg_file --pcfg-dir $PCFGdir"
+	 ;;
+   stop)
+	 killproc consoled
+	 ;;
+   restart|reload)
+	 killproc consoled -HUP
+    sleep 3
+	 ;;
+   status)
+    status consoled
+    ;;
+    version)
+    if [ -f /usr/sbin/consoled ]
+    then
+        grep -i '\$VERSION =' /usr/sbin/consoled | gawk -F\' '{print $2}'
+    else
+        echo "/usr/sbin/consoled does not exist"
+    fi
+    ;;
+   *)
+	 echo "Usage: $0 {start|stop|restart|status|version}"
+	 ;;
+esac
+exit 0 

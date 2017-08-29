@@ -1,0 +1,9 @@
+docs/Doxyfile
+docs/README
+MANIFEST			This list of files
+README.md			Project description
+VERSION
+install.sh			Installation script
+sbin/consoled		Server script
+etc/logrotate.d/L1	Logrotate config for L1.log
+etc/init.d/consoled	init script for consoled

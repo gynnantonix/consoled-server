@@ -1,0 +1,7 @@
+This is the directory which will hold documentation generated from the ConsoleClient library.
+
+The generators used are Doxygen (with dot) and Doxygen-filter.
+Once both of these packages are installed on your system, saying:
+'doxygen Doxyfile' will create documentation for the libraries in ../lib
+
+Please make sure that you've defined the path to your 'dot' executable in the Doxygen configuration file (Doxyfile) before running Doxygen.
